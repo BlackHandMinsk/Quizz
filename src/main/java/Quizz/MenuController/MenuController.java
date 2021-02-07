@@ -12,6 +12,7 @@ import Quizz.Service.QuestionService;
 import Quizz.Service.UserService;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
@@ -34,29 +35,32 @@ public class MenuController {
 
 
     public void start() {
-        String in = "";
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println(QUIZ_LOGO);
-        while (!"e".equals(in)) {
-            try {
-                System.out.println(START_MENU);
-                in = reader.readLine();
-                switch (in) {
-                    case "1":
-                        startSession();
-                        break;
-                    case "2":
-                        startCreature();
-                        break;
-                    case "e":
-                        break;
+        File file = new File("C:\\Users\\37544\\IdeaProjects\\Quizz\\src\\main\\resources\\startMenuSound.wav");
+        SoundController soundController = new SoundController(file);
+            soundController.play();
+            String in = "";
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println(QUIZ_LOGO);
+            while (!"e".equals(in)) {
+                try {
+                    System.out.println(START_MENU);
+                    in = reader.readLine();
+                    switch (in) {
+                        case "1":
+                            soundController.close();
+                            startSession();
+                            break;
+                        case "2":
+                            startCreature();
+                            break;
+                        case "e":
+                            break;
+                    }
+                } catch (IOException e) {
+                    System.err.println("НЕВАЛИДНЫЙ ВВОД ДАННЫХ: " + e.getMessage());
                 }
-            } catch (IOException e) {
-                System.err.println("НЕВАЛИДНЫЙ ВВОД ДАННЫХ: " + e.getMessage());
             }
         }
-
-    }
 
 
 
