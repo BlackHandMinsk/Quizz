@@ -28,6 +28,9 @@ public class MenuController {
     private static final String QUESTIONS_PATH = "C:\\Users\\37544\\IdeaProjects\\Quizz\\src\\main\\resources\\questions.json";
     private final UserService userService = new UserService();
     private final UserRepository userRepository = new UserRepository();
+    private static final String MISTAKE_SOUND = "C:\\Users\\37544\\IdeaProjects\\Quizz\\src\\main\\resources\\sound-mistake.wav";
+    private static final String GAME_OVER_SOUND = "C:\\Users\\37544\\IdeaProjects\\Quizz\\src\\main\\resources\\zvuk-game-over.wav";
+    private final File MAIN_MENU_SOUND = new File("C:\\Users\\37544\\IdeaProjects\\Quizz\\src\\main\\resources\\startMenuSound.wav");
 
 
 
@@ -35,8 +38,7 @@ public class MenuController {
 
 
     public void start() {
-        File file = new File("C:\\Users\\37544\\IdeaProjects\\Quizz\\src\\main\\resources\\startMenuSound.wav");
-        SoundController soundController = new SoundController(file);
+        SoundController soundController = new SoundController(MAIN_MENU_SOUND);
             soundController.play();
             String in = "";
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -51,9 +53,11 @@ public class MenuController {
                             startSession();
                             break;
                         case "2":
+                            soundController.close();
                             startCreature();
                             break;
                         case "e":
+                            soundController.close();
                             break;
                     }
                 } catch (IOException e) {
@@ -192,6 +196,7 @@ public class MenuController {
                                 String a = reader.readLine();
                                 if (!a.equals(question1.getCorrectAnswer())) {
                                     mistake += 1;
+                                    SoundController.playSound(MISTAKE_SOUND).join();
                                     System.out.println("НЕПРАВИЛЬНЫЙ ОТВЕТ");
                                     if(mistake==level){
                                         throw new MistakeException();
@@ -207,6 +212,7 @@ public class MenuController {
                 e.printStackTrace();
             } catch (MistakeException c) {
                 System.out.println("НЕПРАВИЛЬНЫЙ ОТВЕТ, ИГРА ЗАКОНЧЕНА");
+                SoundController.playSound(GAME_OVER_SOUND).join();
             }
     }
         private void showRating ( int id) throws SQLException, ItemNotFoundException {
