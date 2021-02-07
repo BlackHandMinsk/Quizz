@@ -158,12 +158,29 @@ public class MenuController {
 
     private void newGame(int id) throws IOException, SQLException, ItemNotFoundException {
         int mistake = 0;
+        int level = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         ArrayList<Question[]> arr = new ArrayList<>();
         QuestionService.toJavaObject(arr, QUESTIONS_PATH);
             try {
                 System.out.println("-----------------------\nНОВАЯ ИГРА\n-----------------------");
-                System.out.println("ОТВЕЧАЙТЕ НА ВОПРОСЫ, ЗА КАЖДЫЙ ПРАВИЛЬНЫЙ ОТВЕТ ВЫ ПОЛУЧАТЕТЕ ОДИН БАЛЛ\nВЫ МОЖЕТЕ ДОПУСТИТЬ ТРИ ОШИБКИ");
+                System.out.println("ВЫБЕРИТЕ УРОВЕНЬ СЛОЖНОСТИ: \n1. Легкий - 5 ошибок\n2. Средний - 3 ошибки\n3. Тяжелый - 1 ошибка");
+                String in = reader.readLine();
+                switch (in) {
+                    case "1":
+                       level+=5;
+                        System.out.println("ВЫ ВЫБРАЛИ ЛЕГКИЙ УРОВЕНЬ СЛОЖНОСТИ");
+                        break;
+                    case "2":
+                        level+=3;
+                        System.out.println("ВЫ ВЫБРАЛИ СРЕДНИЙ УРОВЕНЬ СЛОЖНОСТИ");
+                        break;
+                    case "3":
+                        level+=1;
+                        System.out.println("ВЫ ВЫБРАЛИ ТЯЖЕЛЫЙ УРОВЕНЬ СЛОЖНОСТИ");
+                        break;
+                }
+                System.out.println("ОТВЕЧАЙТЕ НА ВОПРОСЫ, ЗА КАЖДЫЙ ПРАВИЛЬНЫЙ ОТВЕТ ВЫ ПОЛУЧАТЕТЕ ОДИН БАЛЛ\nВЫ МОЖЕТЕ ДОПУСТИТЬ "+level+" ОШИБКИ");
                     for (Question[] question : arr) {
                         for (Question question1 : question) {
                                 System.out.println(question1.getQuestion());
@@ -172,7 +189,7 @@ public class MenuController {
                                 if (!a.equals(question1.getCorrectAnswer())) {
                                     mistake += 1;
                                     System.out.println("НЕПРАВИЛЬНЫЙ ОТВЕТ");
-                                    if(mistake==3){
+                                    if(mistake==level){
                                         throw new MistakeException();
                                     }
                                 } else if (a.equals(question1.getCorrectAnswer())) {
@@ -190,6 +207,6 @@ public class MenuController {
     }
         private void showRating ( int id) throws SQLException, ItemNotFoundException {
             int score = userRepository.getUserScore(id);
-            System.out.println("ВАШ РЕЙТИНГ: \n" + score);
+            System.out.println("ВАШ РЕЙТИНГ: " + score);
         }
     }

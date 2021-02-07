@@ -103,6 +103,4 @@ public class UserRepository {
         preparedStatement.setInt(1, id_users);
         preparedStatement.executeUpdate();
     }
-
-
 }
