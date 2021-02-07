@@ -39,6 +39,7 @@ public class MenuController {
 
     public void start() {
         SoundController soundController = new SoundController(MAIN_MENU_SOUND);
+            soundController.setVolume(0.7f);
             soundController.play();
             String in = "";
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
