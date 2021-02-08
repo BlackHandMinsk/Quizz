@@ -178,15 +178,15 @@ public class MenuController {
                 switch (in) {
                     case "1":
                        level+=5;
-                        System.out.println("ВЫ ВЫБРАЛИ ЛЕГКИЙ УРОВЕНЬ СЛОЖНОСТИ");
+                        System.out.println("------------------------\nВЫ ВЫБРАЛИ ЛЕГКИЙ УРОВЕНЬ СЛОЖНОСТИ\n------------------------");
                         break;
                     case "2":
                         level+=3;
-                        System.out.println("ВЫ ВЫБРАЛИ СРЕДНИЙ УРОВЕНЬ СЛОЖНОСТИ");
+                        System.out.println("------------------------\nВЫ ВЫБРАЛИ СРЕДНИЙ УРОВЕНЬ СЛОЖНОСТИ\n------------------------");
                         break;
                     case "3":
                         level+=1;
-                        System.out.println("ВЫ ВЫБРАЛИ ТЯЖЕЛЫЙ УРОВЕНЬ СЛОЖНОСТИ");
+                        System.out.println("------------------------\nВЫ ВЫБРАЛИ ТЯЖЕЛЫЙ УРОВЕНЬ СЛОЖНОСТИ\n------------------------");
                         break;
                 }
                 System.out.println("ОТВЕЧАЙТЕ НА ВОПРОСЫ, ЗА КАЖДЫЙ ПРАВИЛЬНЫЙ ОТВЕТ ВЫ ПОЛУЧАТЕТЕ ОДИН БАЛЛ\nВЫ МОЖЕТЕ ДОПУСТИТЬ "+level+" ОШИБКИ");
@@ -198,13 +198,14 @@ public class MenuController {
                                 if (!a.equals(question1.getCorrectAnswer())) {
                                     mistake += 1;
                                     SoundController.playSound(MISTAKE_SOUND).join();
-                                    System.out.println("НЕПРАВИЛЬНЫЙ ОТВЕТ");
+                                    System.out.println("------------------------\nНЕПРАВИЛЬНЫЙ ОТВЕТ\n------------------------");
                                     if(mistake==level){
                                         throw new MistakeException();
                                     }
                                 } else if (a.equals(question1.getCorrectAnswer())) {
                                     userRepository.scoreUpdate(id);
-                                    System.out.println("ОТВЕТ ВЕРЕН");
+                                    System.out.println("------------------------\nОТВЕТ ВЕРЕН\n------------------------");
+                                    System.out.println(question1.getCorrectAnswerInfo()+"\n------------------------");
                                 }
                             }
                         }
@@ -212,7 +213,7 @@ public class MenuController {
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (MistakeException c) {
-                System.out.println("НЕПРАВИЛЬНЫЙ ОТВЕТ, ИГРА ЗАКОНЧЕНА");
+                System.out.println("------------------------\nНЕПРАВИЛЬНЫЙ ОТВЕТ, ИГРА ЗАКОНЧЕНА\n------------------------");
                 SoundController.playSound(GAME_OVER_SOUND).join();
             }
     }
